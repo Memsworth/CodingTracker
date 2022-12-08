@@ -6,14 +6,31 @@ namespace CodingTracker;
 
 public class SessionController
 {
-    public void Insert()
+    public void Insert(SessionModel sessionModel)
     {
-        
+        using (IDbConnection connection = new SqliteConnection(Database.LoadConnectionString()))
+        {
+            connection.Execute(
+                "insert into Sessions (StartTime, EndTime, Duration) values (@StartTime, @EndTime, @Duration)",
+                sessionModel);
+        }
     }
 
-    public void Delete()
+    public void Delete(int key)
     {
-        
+        using (IDbConnection connection = new SqliteConnection(Database.LoadConnectionString()))
+        {
+            try
+            {
+                connection.Execute("Delete from Sessions WHERE id = @key", key);
+                
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw;
+            }
+        }
     }
 
     public void Update()

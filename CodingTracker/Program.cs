@@ -7,9 +7,10 @@
             Database.CreateDB();
             var controller = new SessionController();
             var appEnd = false;
+            var sessions = new Session();
             while (appEnd != true)
             {
-                ShowMenu();
+                //ShowMenu();
                 int.TryParse(Console.ReadLine(), out int choice);
                 switch (choice)
                 {
@@ -17,13 +18,13 @@
                         appEnd = true;
                         break;
                     case 1:
-                        controller.Insert();
+                        controller.Insert(sessions.GetSession());
                         break;
                     case 2:
                         controller.Update();
                         break;
                     case 3:
-                        controller.Delete();
+                        controller.Delete(1);
                         break;
                     case 4:
                         break;
