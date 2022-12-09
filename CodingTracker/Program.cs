@@ -1,4 +1,6 @@
-﻿namespace CodingTracker
+﻿using ConsoleTableExt;
+
+namespace CodingTracker
 {
     internal class Program
     {
@@ -10,7 +12,7 @@
             var sessions = new Session();
             while (appEnd != true)
             {
-                //ShowMenu();
+                ShowMenu();
                 int.TryParse(Console.ReadLine(), out int choice);
                 switch (choice)
                 {
@@ -18,13 +20,14 @@
                         appEnd = true;
                         break;
                     case 1:
-                        controller.Insert(sessions.GetSession());
+                        ConsoleTableBuilder.From(controller.Load()).ExportAndWriteLine();
                         break;
                     case 2:
-                        controller.Update();
+                        controller.Insert(sessions.GetSession());
                         break;
                     case 3:
-                        controller.Delete(1);
+                        //change this later for better error handling
+                        controller.Delete(int.Parse(Console.ReadLine()));
                         break;
                     case 4:
                         break;
@@ -36,7 +39,13 @@
         }
         private static void ShowMenu()
         {
-            throw new NotImplementedException();
+            Console.WriteLine("\nMAIN MENU");
+            Console.WriteLine("What would you like to do?\n");
+            Console.WriteLine("Type 0 to Close Application.");
+            Console.WriteLine("Type 1 to View All Records.");
+            Console.WriteLine("Type 2 to Insert Record.");
+            Console.WriteLine("Type 3 to Delete Record.");
+            Console.WriteLine("---------------------------------------------");
         }
     }
     

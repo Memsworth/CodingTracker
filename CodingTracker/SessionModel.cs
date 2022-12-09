@@ -12,7 +12,10 @@ public class SessionModel
     {
         Id = id;
     }
-
+    public SessionModel()
+    {
+        
+    }
     public SessionModel(DateTime startTime, DateTime endTime)
     {
         StartTime = startTime;

@@ -22,8 +22,8 @@ public class SessionController
         {
             try
             {
-                connection.Execute("Delete from Sessions WHERE id = @key", key);
-                
+                connection.Execute("Delete from Sessions WHERE id = @Id", new {Id = key});
+                Console.WriteLine($"Entry: {key} deleted");
             }
             catch (Exception e)
             {
@@ -31,11 +31,6 @@ public class SessionController
                 throw;
             }
         }
-    }
-
-    public void Update()
-    {
-        
     }
 
     public List<SessionModel> Load()
