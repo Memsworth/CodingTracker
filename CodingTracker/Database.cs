@@ -19,7 +19,7 @@ public static class Database
         return connection;
     }
 
-    internal static string LoadConnectionString()
+    private static string LoadConnectionString()
     {
         var builder = new ConfigurationBuilder().AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
         var configuration = builder.Build();
