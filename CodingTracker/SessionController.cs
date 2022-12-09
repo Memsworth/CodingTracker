@@ -6,41 +6,35 @@ namespace CodingTracker;
 
 public class SessionController
 {
+    private IDbConnection _dbConnection;
+
+    public SessionController(IDbConnection dbConnection)
+    {
+        _dbConnection = dbConnection;
+    }
+
     public void Insert(SessionModel sessionModel)
     {
-        using (IDbConnection connection = new SqliteConnection(Database.LoadConnectionString()))
-        {
-            connection.Execute(
-                "insert into Sessions (StartTime, EndTime, Duration) values (@StartTime, @EndTime, @Duration)",
-                sessionModel);
-        }
+        _dbConnection.Execute(
+            "insert into Sessions (StartTime, EndTime, Duration) values (@StartTime, @EndTime, @Duration)",
+            sessionModel);
     }
 
     public void Delete(int key)
     {
-        using (IDbConnection connection = new SqliteConnection(Database.LoadConnectionString()))
+        try
         {
-            try
-            {
-                connection.Execute("Delete from Sessions WHERE id = @Id", new {Id = key});
-                Console.WriteLine($"Entry: {key} deleted");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                throw;
-            }
+            _dbConnection.Execute("Delete from Sessions WHERE id = @Id", new {Id = key});
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            throw;
         }
     }
 
     public List<SessionModel> Load()
     {
-        var list = new List<SessionModel>();
-
-        using (IDbConnection connection = new SqliteConnection(Database.LoadConnectionString()))
-        {
-            var output = connection.Query<SessionModel>(@"select * from Sessions", new DynamicParameters());
-            return output.ToList();
-        }
+        return _dbConnection.Query<SessionModel>(@"select * from Sessions").ToList();
     }
 }

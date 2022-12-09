@@ -8,17 +8,15 @@ namespace CodingTracker;
 
 public static class Database
 {
-    public static void CreateDB()
+    public static IDbConnection CreateDB()
     {
-        var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         Console.WriteLine("creating a DB");
         var connectionString = LoadConnectionString();
-        using (IDbConnection connection = new SqliteConnection(connectionString))
-        {
-            var commandString =
-                "CREATE TABLE IF NOT EXISTS Sessions (  ID INTEGER NOT NULL UNIQUE,  StartTime TEXT NOT NULL,  EndTime TEXT NOT NULL,  Duration TEXT NOT NULL,  PRIMARY KEY(ID AUTOINCREMENT) )";
-            connection.Execute(commandString);
-        }
+        var connection = new SqliteConnection(connectionString);
+        var commandString =
+            "CREATE TABLE IF NOT EXISTS Sessions (  ID INTEGER NOT NULL UNIQUE,  StartTime TEXT NOT NULL,  EndTime TEXT NOT NULL,  Duration TEXT NOT NULL,  PRIMARY KEY(ID AUTOINCREMENT) )";
+        connection.Execute(commandString);
+        return connection;
     }
 
     internal static string LoadConnectionString()

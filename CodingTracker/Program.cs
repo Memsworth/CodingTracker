@@ -6,8 +6,9 @@ namespace CodingTracker
     {
         static void Main(string[] args)
         {
-            Database.CreateDB();
-            var controller = new SessionController();
+           var db = Database.CreateDB();
+            
+            var controller = new SessionController(db);
             var appEnd = false;
             var sessions = new Session();
             while (appEnd != true)
@@ -27,7 +28,9 @@ namespace CodingTracker
                         break;
                     case 3:
                         //change this later for better error handling
-                        controller.Delete(int.Parse(Console.ReadLine()));
+                        var key = int.Parse(Console.ReadLine());
+                        controller.Delete(key);
+                        Console.WriteLine($"Entry: {key} deleted");
                         break;
                     case 4:
                         break;
