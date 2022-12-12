@@ -1,8 +1,6 @@
-﻿using ConsoleTableExt;
-
-namespace CodingTracker
+﻿namespace CodingTracker
 {
-    internal class Program
+    internal abstract class Program
     {
         static void Main(string[] args)
         {
@@ -10,7 +8,6 @@ namespace CodingTracker
             
             var controller = new SessionController(db.CreateDB());
             var appEnd = false;
-            var sessions = new Session();
             while (appEnd != true)
             {
                 ShowMenu();
@@ -25,11 +22,11 @@ namespace CodingTracker
                         viewer.PromptView();
                         break;
                     case 2:
-                        controller.Insert(sessions.GetSession());
+                        controller.Insert(Session.GetSession());
                         break;
                     case 3:
                         //change this later for better error handling
-                        var key = int.Parse(Console.ReadLine());
+                        int.TryParse(Console.ReadLine(), out int key);
                         controller.Delete(key);
                         Console.WriteLine($"Entry: {key} deleted");
                         break;

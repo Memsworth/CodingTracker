@@ -5,7 +5,7 @@ namespace CodingTracker;
 
 public class SessionController
 {
-    private IDbConnection _dbConnection;
+    private readonly IDbConnection _dbConnection;
 
     public SessionController(IDbConnection dbConnection)
     {

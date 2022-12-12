@@ -28,6 +28,10 @@ public class RecordViewer
             case 3:
                 TotalTimeSpent();
                 break;
+            case 4:
+                DateTime.TryParse(Console.ReadLine(), out DateTime dateInput);
+                ViewByDate(dateInput);
+                break;
             default:
                 Console.WriteLine("Wrong input");
                 break;
@@ -40,6 +44,7 @@ public class RecordViewer
         Console.WriteLine("Type 1 to View All Records.");
         Console.WriteLine("Type 2 to view specific Record.");
         Console.WriteLine("Type 3 to view total time spent.");
+        Console.WriteLine("Type 4 to view Record by date");
         Console.WriteLine("---------------------------------------------");
     }
     
@@ -55,5 +60,11 @@ public class RecordViewer
         TimeSpan totalTime = Records.Aggregate(TimeSpan.Zero, (current, record) => current + record.Duration);
         var display = new List<object>() { "Total Time spent", totalTime };
         ConsoleTableBuilder.From(display).ExportAndWriteLine();
+    }
+
+    private void ViewByDate(DateTime date)
+    {
+        var records = Records.Where(x => x.StartTime.Date == date.Date).ToList();
+        ConsoleTableBuilder.From(records).ExportAndWriteLine();
     }
 }
