@@ -1,14 +1,13 @@
 ﻿using System.Data;
-using System.Reflection;
 using Dapper;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Configuration;
 
 namespace CodingTracker;
 
-public static class Database
+public class Database
 {
-    public static IDbConnection CreateDB()
+    public IDbConnection CreateDB()
     {
         Console.WriteLine("creating a DB");
         var connectionString = LoadConnectionString();
@@ -19,7 +18,7 @@ public static class Database
         return connection;
     }
 
-    private static string LoadConnectionString()
+    private string LoadConnectionString()
     {
         var builder = new ConfigurationBuilder().AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
         var configuration = builder.Build();

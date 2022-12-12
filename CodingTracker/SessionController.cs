@@ -1,6 +1,5 @@
 ﻿using System.Data;
 using Dapper;
-using Microsoft.Data.Sqlite;
 
 namespace CodingTracker;
 
@@ -33,8 +32,23 @@ public class SessionController
         }
     }
 
+    public void Reset()
+    {
+        try
+        {
+            _dbConnection.Execute("Delete from Sessions");
+            _dbConnection.Execute("Delete from  sqlite_sequence where name='Sessions'");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
     public List<SessionModel> Load()
     {
         return _dbConnection.Query<SessionModel>(@"select * from Sessions").ToList();
     }
+    
 }

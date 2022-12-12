@@ -6,9 +6,9 @@ namespace CodingTracker
     {
         static void Main(string[] args)
         {
-           var db = Database.CreateDB();
+            var db = new Database();
             
-            var controller = new SessionController(db);
+            var controller = new SessionController(db.CreateDB());
             var appEnd = false;
             var sessions = new Session();
             while (appEnd != true)
@@ -21,7 +21,8 @@ namespace CodingTracker
                         appEnd = true;
                         break;
                     case 1:
-                        ConsoleTableBuilder.From(controller.Load()).ExportAndWriteLine();
+                        var viewer = new RecordViewer(controller.Load());
+                        viewer.PromptView();
                         break;
                     case 2:
                         controller.Insert(sessions.GetSession());
@@ -33,6 +34,7 @@ namespace CodingTracker
                         Console.WriteLine($"Entry: {key} deleted");
                         break;
                     case 4:
+                        controller.Reset();
                         break;
                     default:
                         Console.WriteLine("Invalid Input");
@@ -45,9 +47,10 @@ namespace CodingTracker
             Console.WriteLine("\nMAIN MENU");
             Console.WriteLine("What would you like to do?\n");
             Console.WriteLine("Type 0 to Close Application.");
-            Console.WriteLine("Type 1 to View All Records.");
+            Console.WriteLine("Type 1 to View Records.");
             Console.WriteLine("Type 2 to Insert Record.");
             Console.WriteLine("Type 3 to Delete Record.");
+            Console.WriteLine("Type 4 to Reset Records.");
             Console.WriteLine("---------------------------------------------");
         }
     }
